@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 import os
+import requests
 
 app = Flask(__name__)
 
@@ -33,7 +34,7 @@ def nf_crypto_payment(amount, telegram_user_id):
 
 @app.route('/')
 def index():
-    return nf_crypto_payment(200, "2121)
+    return nf_crypto_payment(200, "2121")
 
 
 if __name__ == '__main__':
