@@ -33,7 +33,7 @@ def nf_crypto_payment(amount, telegram_user_id):
     }
 
 
-@app.route('/')
+@app.route('/aa')
 def index():
     return nf_crypto_payment(200, "2121")
 
