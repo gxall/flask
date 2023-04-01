@@ -1,11 +1,14 @@
-from flask import Flask, jsonify
-import os
-import json
+from flask import Flask, request, jsonify
 import requests
+import json
 
 app = Flask(__name__)
 
-def nf_crypto_payment(amount, telegram_user_id):
+@app.route('/nf_crypto_payment', methods=['POST'])
+def nf_crypto_payment():
+    data = request.get_json()
+    amount = data['amount']
+    telegram_user_id = data['telegram_user_id']
     data = {"id": "", "price": amount, "currency": "USD", "store_id": "RUZcUraKvqVNWdKCMGreKFrWraLNIbtI", "products": "", "expiration": "", "promocode": "",
             "notification_url": "https://gcbot-production.up.railway.app/nfwcp", "redirect_url": "", "buyer_email": "",
             "order_id": "", "discount": "", "status": "", "tx_hashes": "", "exception_status": "",
@@ -26,17 +29,11 @@ def nf_crypto_payment(amount, telegram_user_id):
               'Accept-Encoding'] + "' -H 'Connection: " + r.request.headers['Connection'] + "' -H 'Cache-Control: " +
           r.request.headers['Cache-Control'] + "'")
 
-    return {
+    return jsonify({
         "price_amount": amount,
         "invoice_url": f"http://c8bc-37-19-221-160.ngrok.io/invoice/{response.json()['id']}",
         "payments": response.json()['payments']
-    }
-
-
-@app.route('/aa')
-def index():
-    return nf_crypto_payment(200, "2121")
-
+    })
 
 if __name__ == '__main__':
-    app.run(debug=True, port=os.getenv("PORT", default=5000))
+    app.run()
