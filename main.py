@@ -54,10 +54,7 @@ def create_maxicode(data):
 
     response = requests.post(url, headers=headers, data=data)
 
-    # Decode the Base64 string
-    imgdata = base64.b64decode(response.text)
-
-    return imgdata
+    return response.text
 
 if __name__ == '__main__':
     app.run()
